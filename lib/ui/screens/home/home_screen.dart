@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_skates.dart';
+import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/skate_eje_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 const _duration = Duration(milliseconds: 500);
@@ -21,27 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.menu_rounded,
-                    size: 25,
-                  ),
-                  Text(
-                    'Skates Shop',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.shopping_cart_rounded,
-                    size: 25,
-                  )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.menu_rounded),
+                  iconSize: 25,
+                ),
+                const Text(
+                  'SkateboardsShop',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.shopping_cart_rounded),
+                  iconSize: 25,
+                ),
+              ],
             ),
-            Column(
+            const Column(
               children: [
                 Text(
                   'Choose your board',
@@ -67,13 +67,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: _buildListItem,
                 itemCount: skates.length,
                 itemSize: 150,
+                scrollPhysics: const BouncingScrollPhysics(
+                  decelerationRate: ScrollDecelerationRate.fast,
+                ),
                 onItemFocus: (index) {
                   setState(() {
                     _currentPage = index;
                   });
                 },
                 dynamicItemSize: true,
-                //dynamicItemOpacity: 0.8,
               ),
             ),
             Padding(
@@ -95,16 +97,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.w800),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
-                        'SELECT',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                  GestureDetector(
+                    onTap: () {
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => SkateEjeScreen(
+                      //     productSkate: skates[_currentPage],
+                      //     tapHero: _currentPage,
+                      //   ),
+                      // ));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Text(
+                          'SELECT',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -119,10 +131,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    return SizedBox(
-      width: 150,
-      child: Image.asset(
-        skates[index].image,
+    return Hero(
+      tag: index,
+      child: SizedBox(
+        width: 150,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                //reverseTransitionDuration: const Duration(milliseconds: 250),
+                transitionDuration: const Duration(milliseconds: 800),
+                pageBuilder: (context, animation, _) {
+                  return SkateEjeScreen(
+                    productSkate: skates[_currentPage],
+                    tapHero: _currentPage,
+                  );
+                },
+              ),
+            );
+          },
+          child: Image.asset(
+            skates[index].image,
+          ),
+        ),
       ),
     );
   }
