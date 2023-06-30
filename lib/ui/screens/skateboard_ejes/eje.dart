@@ -4,8 +4,8 @@ import 'package:flutter_skate_ui/data/memory/in_memory_ejes.dart';
 import 'package:flutter_skate_ui/domain/models/skate_model.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
-class EjeScreen extends StatefulWidget {
-  const EjeScreen({
+class SkateEjeScreen extends StatefulWidget {
+  const SkateEjeScreen({
     Key? key,
     required this.productSkate,
     required this.tapHero,
@@ -15,16 +15,17 @@ class EjeScreen extends StatefulWidget {
   final int tapHero;
 
   @override
-  State<EjeScreen> createState() => _SkateEjeScreenState();
+  State<SkateEjeScreen> createState() => _SkateEjeScreenState();
 }
 
-class _SkateEjeScreenState extends State<EjeScreen> {
+class _SkateEjeScreenState extends State<SkateEjeScreen> {
   int _currentPage = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +78,7 @@ class _SkateEjeScreenState extends State<EjeScreen> {
               child: Column(
                 children: [
                   TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 650),
                     tween: Tween(begin: 1.0, end: 0.0),
                     builder: (context, value, child) {
                       return Transform.translate(
@@ -94,7 +95,7 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                   ),
                   const SizedBox(height: 10),
                   TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 650),
                     tween: Tween(begin: 1.0, end: 0.0),
                     builder: (context, value, child) {
                       return Transform.translate(
@@ -114,7 +115,7 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                   GestureDetector(
                     onTap: () {
                       // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => EjeScreen(
+                      //   builder: (context) => SkateEjeScreen(
                       //     productSkate: skates[_currentPage],
                       //     tapHero: _currentPage,
                       //   ),
@@ -139,9 +140,11 @@ class _SkateEjeScreenState extends State<EjeScreen> {
             ),
             Expanded(
               child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Positioned.fill(
-                    bottom: -80,
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: 450),
+                    top: 80,
                     child: Hero(
                       key: Key(widget.productSkate.name),
                       tag: widget.tapHero,
@@ -157,37 +160,37 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                       ),
                     ),
                   ),
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
-                    tween: Tween(begin: 1.0, end: 0.0),
-                    builder: (context, value, child) {
-                      return Positioned.fill(
-                        bottom: 380,
-                        child: Transform.translate(
-                          offset: Offset(0, -240 * value),
+                  Positioned.fill(
+                    bottom: 380,
+                    child: TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 800),
+                      tween: Tween(begin: 1, end: 0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, -80 * value),
                           child: Image(
                             image: AssetImage(
                               ejes[_currentPage].image_back,
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
-                    tween: Tween(begin: 1.0, end: 0.0),
-                    builder: (context, value, _) {
-                      return Positioned.fill(
-                        bottom: -40,
-                        child: Transform.translate(
-                          offset: Offset(0, -480 * value),
+                  Positioned.fill(
+                    top: 200,
+                    child: TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 800),
+                      tween: Tween(begin: 1.0, end: 0.0),
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, -300 * value),
                           child: Image.asset(
                             ejes[_currentPage].image_fron,
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

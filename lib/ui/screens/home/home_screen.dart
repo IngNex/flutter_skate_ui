@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_skates.dart';
+import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/eje.dart';
 import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/skate_eje_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
-
-const _duration = Duration(milliseconds: 500);
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -99,12 +98,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => SkateEjeScreen(
-                      //     productSkate: skates[_currentPage],
-                      //     tapHero: _currentPage,
-                      //   ),
-                      // ));
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          reverseTransitionDuration:
+                              const Duration(milliseconds: 650),
+                          transitionDuration: const Duration(milliseconds: 650),
+                          pageBuilder: (context, animation, _) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: EjeScreen(
+                                productSkate: skates[_currentPage],
+                                tapHero: _currentPage,
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -131,28 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    return Hero(
-      tag: index,
-      child: SizedBox(
-        width: 150,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                //reverseTransitionDuration: const Duration(milliseconds: 250),
-                transitionDuration: const Duration(milliseconds: 800),
-                pageBuilder: (context, animation, _) {
-                  return SkateEjeScreen(
-                    productSkate: skates[_currentPage],
-                    tapHero: _currentPage,
-                  );
-                },
-              ),
-            );
-          },
-          child: Image.asset(
-            skates[index].image,
-          ),
+    return SizedBox(
+      width: 150,
+      child: Hero(
+        tag: index,
+        key: Key(skates[index].name),
+        child: Image.asset(
+          skates[index].image,
         ),
       ),
     );
