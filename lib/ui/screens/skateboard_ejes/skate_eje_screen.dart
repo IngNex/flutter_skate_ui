@@ -1,11 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_skate_ui/data/memory/in_memory_ejes.dart';
+import 'package:flutter_skate_ui/data/memory/in_memory_trucks.dart';
 import 'package:flutter_skate_ui/domain/models/skate_model.dart';
+import 'package:flutter_skate_ui/ui/screens/sketboard_wheels/sketboard_wheels_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
-class EjeScreen extends StatefulWidget {
-  const EjeScreen({
+class SkateboardEjeScreen extends StatefulWidget {
+  const SkateboardEjeScreen({
     Key? key,
     required this.productSkate,
     required this.tapHero,
@@ -15,10 +16,10 @@ class EjeScreen extends StatefulWidget {
   final int tapHero;
 
   @override
-  State<EjeScreen> createState() => _SkateEjeScreenState();
+  State<SkateboardEjeScreen> createState() => _SkateboardEjeScreenState();
 }
 
-class _SkateEjeScreenState extends State<EjeScreen> {
+class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
   int _currentPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -26,54 +27,60 @@ class _SkateEjeScreenState extends State<EjeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                  iconSize: 25,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(36),
+                  bottomRight: Radius.circular(36),
                 ),
-                const Text(
-                  'Eje Skateboards',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_cart),
-                  iconSize: 25,
-                ),
-              ],
-            ),
-            const Text(
-              'Choose your trucks',
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.grey,
-                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 120,
-              child: ScrollSnapList(
-                itemBuilder: _buildListItem,
-                itemCount: ejes.length,
-                itemSize: 150,
-                scrollPhysics: const BouncingScrollPhysics(
-                  decelerationRate: ScrollDecelerationRate.fast,
-                ),
-                onItemFocus: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                dynamicItemSize: true,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.arrow_back),
+                        iconSize: 25,
+                      ),
+                      const Text(
+                        'Eje Skateboards',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.shopping_cart),
+                        iconSize: 25,
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'Choose your trucks',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Column(
                 children: [
                   TweenAnimationBuilder<double>(
@@ -92,7 +99,6 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                       );
                     },
                   ),
-                  const SizedBox(height: 10),
                   TweenAnimationBuilder<double>(
                     duration: const Duration(milliseconds: 700),
                     tween: Tween(begin: 1.0, end: 0.0),
@@ -110,15 +116,42 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                       );
                     },
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 100,
+                    child: ScrollSnapList(
+                      itemBuilder: _buildListItem,
+                      itemCount: ejes.length,
+                      itemSize: 180,
+                      scrollPhysics: const BouncingScrollPhysics(
+                        decelerationRate: ScrollDecelerationRate.fast,
+                      ),
+                      onItemFocus: (index) {
+                        setState(() {
+                          _currentPage = index;
+                        });
+                      },
+                      dynamicItemSize: true,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => EjeScreen(
-                      //     productSkate: skates[_currentPage],
-                      //     tapHero: _currentPage,
-                      //   ),
-                      // ));
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          reverseTransitionDuration:
+                              const Duration(milliseconds: 650),
+                          transitionDuration: const Duration(milliseconds: 650),
+                          pageBuilder: (context, animation, _) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: SkateboardWheelsScreen(
+                                productEje: ejes[_currentPage],
+                                tapHero: _currentPage,
+                                skate: widget.productSkate.image,
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -126,7 +159,7 @@ class _SkateEjeScreenState extends State<EjeScreen> {
                           borderRadius: BorderRadius.circular(20)),
                       child: const Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                         child: Text(
                           'SELECT',
                           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -138,58 +171,80 @@ class _SkateEjeScreenState extends State<EjeScreen> {
               ),
             ),
             Expanded(
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    bottom: -80,
-                    child: Hero(
-                      key: Key(widget.productSkate.name),
-                      tag: widget.tapHero,
-                      child: Transform(
-                        alignment: Alignment.topCenter,
-                        transform: Matrix4.identity()
-                          ..setEntry(3, 2, 0.001)
-                          ..rotateX(-pi * 0.4)
-                          ..scale(1.2),
-                        child: Image(
-                          image: AssetImage(widget.productSkate.image),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(36),
+                    topRight: Radius.circular(36),
+                  ),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      bottom: -80,
+                      child: Hero(
+                        tag: 'skate_${widget.tapHero}',
+                        child: Transform(
+                          alignment: Alignment.topCenter,
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateX(-pi * 0.4)
+                            ..scale(1.2),
+                          child: Image(
+                            image: AssetImage(widget.productSkate.image),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
-                    tween: Tween(begin: 1.0, end: 0.0),
-                    builder: (context, value, child) {
-                      return Positioned.fill(
-                        bottom: 380,
-                        child: Transform.translate(
-                          offset: Offset(0, -240 * value),
-                          child: Image(
-                            image: AssetImage(
-                              ejes[_currentPage].image_back,
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 700),
+                      tween: Tween(begin: 1.0, end: 0.0),
+                      builder: (context, value, child) {
+                        return Positioned.fill(
+                          bottom: 380,
+                          child: Hero(
+                            tag: 'wheels_${_currentPage}',
+                            child: Transform.translate(
+                              offset: Offset(0, -240 * value),
+                              child: Image(
+                                image: AssetImage(
+                                  ejes[_currentPage].image_back,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
-                    tween: Tween(begin: 1.0, end: 0.0),
-                    builder: (context, value, _) {
-                      return Positioned.fill(
-                        bottom: -40,
-                        child: Transform.translate(
-                          offset: Offset(0, -480 * value),
-                          child: Image.asset(
-                            ejes[_currentPage].image_fron,
+                        );
+                      },
+                    ),
+                    TweenAnimationBuilder<double>(
+                      duration: const Duration(milliseconds: 700),
+                      tween: Tween(begin: 1.0, end: 0.0),
+                      builder: (context, value, _) {
+                        return Positioned.fill(
+                          bottom: -40,
+                          child: Hero(
+                            tag: 'wheels_${_currentPage}_fron',
+                            child: Transform.translate(
+                              offset: Offset(0, -480 * value),
+                              child: Image.asset(
+                                ejes[_currentPage].image_fron,
+                              ),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -200,7 +255,7 @@ class _SkateEjeScreenState extends State<EjeScreen> {
 
   Widget _buildListItem(BuildContext context, int index) {
     return SizedBox(
-      width: 150,
+      width: 180,
       child: Image.asset(
         ejes[index].image_fron,
       ),

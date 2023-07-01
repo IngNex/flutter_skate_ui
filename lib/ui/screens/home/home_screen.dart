@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_skates.dart';
-import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/eje.dart';
 import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/skate_eje_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
@@ -21,45 +20,65 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.menu_rounded),
-                  iconSize: 25,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(36),
+                  bottomRight: Radius.circular(36),
                 ),
-                const Text(
-                  'SkateboardsShop',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_cart_rounded),
-                  iconSize: 25,
-                ),
-              ],
-            ),
-            const Column(
-              children: [
-                Text(
-                  'Choose your board',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Nike'),
-                    Text('Adidas'),
-                    Text('SkateDeluxe'),
-                  ],
-                )
-              ],
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.menu_rounded),
+                        iconSize: 25,
+                      ),
+                      const Text(
+                        'Skateboards',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.shopping_cart_rounded),
+                        iconSize: 25,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text('Nike'),
+                      Text('Adidas'),
+                      Text('Deluxe'),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Choose your board',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: ScrollSnapList(
@@ -77,10 +96,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 dynamicItemSize: true,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(36),
+                  topRight: Radius.circular(36),
+                ),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     skates[_currentPage].name,
@@ -106,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           pageBuilder: (context, animation, _) {
                             return FadeTransition(
                               opacity: animation,
-                              child: EjeScreen(
+                              child: SkateboardEjeScreen(
                                 productSkate: skates[_currentPage],
                                 tapHero: _currentPage,
                               ),
@@ -117,11 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(20)),
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: const Padding(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                         child: Text(
                           'SELECT',
                           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -129,7 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -140,11 +173,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    return SizedBox(
+    return Container(
       width: 150,
+      decoration: BoxDecoration(
+        //color: Colors.red,
+        image: DecorationImage(
+          opacity: 0.2,
+          image: AssetImage(
+            skates[index].image,
+          ),
+        ),
+      ),
       child: Hero(
-        tag: index,
-        key: Key(skates[index].name),
+        tag: 'skate_${index}',
         child: Image.asset(
           skates[index].image,
         ),

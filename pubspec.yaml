@@ -62,9 +62,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/skates/
-    - assets/ejes/eje_fron/
-    - assets/ejes/eje_back/
-    - assets/ejes/eje/
+    - assets/trucks/truck_front/
+    - assets/trucks/truck_back/
+    - assets/trucks/truck/
+    - assets/wheels/wheels/
+    - assets/wheels/wheel/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
