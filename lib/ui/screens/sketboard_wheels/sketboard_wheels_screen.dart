@@ -20,8 +20,10 @@ class SkateboardWheelsScreen extends StatefulWidget {
 }
 
 class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
-  int _currentPage = 0;
-  //double _value = 0.0;
+  int currentPage = 0;
+  double targetValue = 100;
+  double _value = 0.5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,16 +197,22 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                   Positioned(
                     left: 65,
                     top: 70,
-                    child: TweenAnimationBuilder<double>(
+                    child: TweenAnimationBuilder(
                       duration: const Duration(milliseconds: 650),
-                      tween: Tween(begin: 1.0, end: 0.0),
-                      builder: (context, value, child) {
+                      tween: Tween<double>(begin: _value, end: 0.0),
+                      curve: Curves.ease,
+                      builder:
+                          (BuildContext context, double value, Widget? child) {
                         return Transform.translate(
                           offset: Offset(0, -200 * value),
-                          child: Image(
-                            width: 180,
-                            image: AssetImage(
-                              wheels[_currentPage].image_t,
+                          child: Transform.rotate(
+                            alignment: Alignment.center,
+                            angle: value * 12,
+                            child: Image(
+                              width: 180,
+                              image: AssetImage(
+                                wheels[currentPage].image_t,
+                              ),
                             ),
                           ),
                         );
@@ -234,13 +242,13 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
               child: Column(
                 children: [
                   TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 650),
                     tween: Tween(begin: 1.0, end: 0.0),
                     builder: (context, value, child) {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
                         child: Text(
-                          wheels[_currentPage].name,
+                          wheels[currentPage].name,
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w800,
@@ -261,7 +269,7 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                       ),
                       onItemFocus: (index) {
                         setState(() {
-                          _currentPage = index;
+                          currentPage = index;
                         });
                       },
                       dynamicItemSize: true,
@@ -275,7 +283,7 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
                         child: Text(
-                          '\$${wheels[_currentPage].price.toString()}.00',
+                          '\$${wheels[currentPage].price.toString()}.00',
                           style: const TextStyle(
                             fontSize: 20,
                             color: Colors.grey,
@@ -302,19 +310,31 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                       ),
                     ),
                   ),
+                  // Slider(
+                  //   value: _value,
+                  //   min: 0,
+                  //   autofocus: true,
+                  //   max: 5,
+                  //   onChangeStart: (value) {
+                  //     setState(() {
+                  //       _value = value;
+                  //     });
+                  //   },
+                  //   onChangeEnd: (value) {
+                  //     setState(() {
+                  //       _value = value;
+                  //     });
+                  //   },
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       _value = value;
+                  //     });
+                  //   },
+                  // ),
+                  // Text(_value.toString())
                 ],
               ),
             ),
-
-            // Slider(
-            //   value: _value,
-            //   onChanged: (value) {
-            //     setState(() {
-            //       _value = value;
-            //     });
-            //   },
-            // ),
-            // Text(_value.toString())
           ],
         ),
       ),
