@@ -121,7 +121,7 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                     child: ScrollSnapList(
                       itemBuilder: _buildListItem,
                       itemCount: ejes.length,
-                      itemSize: 180,
+                      itemSize: 120,
                       scrollPhysics: const BouncingScrollPhysics(
                         decelerationRate: ScrollDecelerationRate.fast,
                       ),
@@ -254,10 +254,13 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    return SizedBox(
-      width: 180,
-      child: Image.asset(
-        ejes[index].image_fron,
+    return Hero(
+      tag: 'wheels${index}',
+      child: SizedBox(
+        width: 120,
+        child: Image.asset(
+          ejes[index].image_eje,
+        ),
       ),
     );
   }

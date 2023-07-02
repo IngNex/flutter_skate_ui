@@ -21,8 +21,6 @@ class SkateboardWheelsScreen extends StatefulWidget {
 
 class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
   int currentPage = 0;
-  double targetValue = 100;
-  double _value = 0.5;
 
   @override
   Widget build(BuildContext context) {
@@ -183,13 +181,23 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                       duration: const Duration(milliseconds: 650),
                       tween: Tween(begin: 1.0, end: 0.0),
                       builder: (context, value, child) {
-                        return Transform.translate(
-                          offset: Offset(0, -60 * value),
+                        return
+                            // Transform.translate(
+                            //   offset: Offset(0, -60 * value),
+                            //   child:
+                            Hero(
+                          tag: 'wheels${widget.tapHero}',
+                          // placeholderBuilder: (context, heroSize, child) {
+                          //   return SizedBox.shrink();
+                          // },
+                          transitionOnUserGestures:
+                              FutureBuilder.debugRethrowError,
                           child: Image(
                             image: AssetImage(
                               widget.productEje.image_eje,
                             ),
                           ),
+                          //),
                         );
                       },
                     ),
@@ -198,24 +206,42 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                     left: 65,
                     top: 70,
                     child: TweenAnimationBuilder(
-                      duration: const Duration(milliseconds: 650),
-                      tween: Tween<double>(begin: _value, end: 0.0),
+                      duration: const Duration(milliseconds: 1500),
+                      tween: Tween<double>(begin: 1.0, end: 0.0),
                       curve: Curves.ease,
-                      builder:
-                          (BuildContext context, double value, Widget? child) {
-                        return Transform.translate(
-                          offset: Offset(0, -200 * value),
-                          child: Transform.rotate(
-                            alignment: Alignment.center,
-                            angle: value * 12,
-                            child: Image(
-                              width: 180,
-                              image: AssetImage(
-                                wheels[currentPage].image_t,
-                              ),
-                            ),
-                          ),
-                        );
+                      builder: (context, value, Widget? child) {
+                        return value != 0.0
+                            ? Transform.translate(
+                                offset: Offset(0, -350 * value),
+                                child: Transform.rotate(
+                                  alignment: Alignment.center,
+                                  angle: value * 12,
+                                  child: Image(
+                                    width: 180,
+                                    image: AssetImage(
+                                      wheels[currentPage].image_t,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : TweenAnimationBuilder(
+                                duration: const Duration(milliseconds: 750),
+                                tween: Tween<double>(
+                                    begin: 0.0, end: currentPage.toDouble()),
+                                curve: Curves.ease,
+                                builder: (context, turn, child) {
+                                  return Transform.rotate(
+                                    alignment: Alignment.center,
+                                    angle: turn * 12,
+                                    child: Image(
+                                      width: 180,
+                                      image: AssetImage(
+                                        wheels[currentPage].image_t,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                       },
                     ),
                   ),
