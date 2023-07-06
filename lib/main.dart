@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_skate_ui/ui/screens/home/home_screen.dart';
+import 'package:flutter_skate_ui/ui/screens/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

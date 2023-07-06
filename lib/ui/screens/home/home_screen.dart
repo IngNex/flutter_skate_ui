@@ -47,10 +47,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: const Icon(Icons.menu_rounded),
                         iconSize: 25,
                       ),
-                      const Text(
-                        'Skateboards',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                      const Row(
+                        children: [
+                          Text(
+                            'Skate',
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                          Hero(
+                            tag: 'logo',
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.transparent,
+                              child: Image(
+                                image:
+                                    AssetImage('assets/image/logo_skate.png'),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'boards',
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       IconButton(
                         onPressed: () {},
@@ -81,19 +101,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Expanded(
-              child: ScrollSnapList(
-                itemBuilder: _buildListItem,
-                itemCount: skates.length,
-                itemSize: 150,
-                scrollPhysics: const BouncingScrollPhysics(
-                  decelerationRate: ScrollDecelerationRate.fast,
-                ),
-                onItemFocus: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                dynamicItemSize: true,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Text(
+                    'SKATE\nBOARDS',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 95,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.withOpacity(0.4)),
+                  ),
+                  ScrollSnapList(
+                    itemBuilder: _buildListItem,
+                    itemCount: skates.length,
+                    itemSize: 150,
+                    scrollPhysics: const BouncingScrollPhysics(
+                      decelerationRate: ScrollDecelerationRate.fast,
+                    ),
+                    onItemFocus: (index) {
+                      setState(() {
+                        _currentPage = index;
+                      });
+                    },
+                    dynamicItemSize: true,
+                  ),
+                ],
               ),
             ),
             Container(
@@ -176,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: 150,
       decoration: BoxDecoration(
-        //color: Colors.red,
         image: DecorationImage(
           opacity: 0.2,
           image: AssetImage(
