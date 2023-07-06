@@ -3,8 +3,8 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_wheels.dart';
 import 'package:flutter_skate_ui/domain/models/eje_model.dart';
 
-class SkateboardWheelsScreen extends StatefulWidget {
-  const SkateboardWheelsScreen({
+class WheelsScreen extends StatefulWidget {
+  const WheelsScreen({
     Key? key,
     required this.productEje,
     required this.tapHero,
@@ -16,14 +16,15 @@ class SkateboardWheelsScreen extends StatefulWidget {
   final String skate;
 
   @override
-  State<SkateboardWheelsScreen> createState() => _SkateboardWheelsScreenState();
+  State<WheelsScreen> createState() => _WheelsScreenState();
 }
 
-class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
+class _WheelsScreenState extends State<WheelsScreen> {
   int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -103,7 +104,6 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
               ),
             ),
             Expanded(
-              //height: 400,
               child: Stack(
                 children: [
                   // Positioned.fill(
@@ -142,54 +142,15 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                   //     ),
                   //   ),
                   // ),
-                  // Hero(
-                  //   tag: 'wheels_${widget.tapHero}',
-                  //   child: Image(
-                  //     image: AssetImage(
-                  //       widget.productEje.image_back,
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned.fill(
-                  //   bottom: -225,
-                  //   left: 250,
-                  //   child: Hero(
-                  //     tag: 'skate_${widget.tapHero}',
-                  //     child: Transform.rotate(
-                  //       angle: pi * 0.5,
-                  //       alignment: Alignment.center,
-                  //       // transform: Matrix4.identity()
-                  //       //   ..setEntry(3, 2, 0.001)
-                  //       //   ..rotate(-pi * _value),
-                  //       // ..scale(1.2),
-                  //       child: Transform(
-                  //         alignment: Alignment.center,
-                  //         transform: Matrix4.identity()
-                  //           ..setEntry(3, 2, 0.001)
-                  //           ..rotateY(-pi * 0.71)
-                  //           ..scale(3.5),
-                  //         child: Image(
-                  //           image: AssetImage(widget.skate),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Positioned.fill(
-                    bottom: -80,
+                    bottom: -70,
+                    left: 80,
                     child: TweenAnimationBuilder<double>(
                       duration: const Duration(milliseconds: 650),
                       tween: Tween(begin: 1.0, end: 0.0),
                       builder: (context, value, child) {
-                        return
-                            // Transform.translate(
-                            //   offset: Offset(0, -60 * value),
-                            //   child:
-                            Hero(
+                        return Hero(
                           tag: 'wheels${widget.tapHero}',
-                          // placeholderBuilder: (context, heroSize, child) {
-                          //   return SizedBox.shrink();
-                          // },
                           transitionOnUserGestures:
                               FutureBuilder.debugRethrowError,
                           child: Image(
@@ -203,14 +164,16 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                     ),
                   ),
                   Positioned(
-                    left: 65,
-                    top: 70,
+                    top: 60,
+                    left: size.height * 0.12,
+                    right: size.height * 0.12,
                     child: TweenAnimationBuilder(
                       duration: const Duration(milliseconds: 1500),
                       tween: Tween<double>(begin: 1.0, end: 0.0),
                       curve: Curves.ease,
                       builder: (context, value, Widget? child) {
                         return value != 0.0
+                            //============== Wheels pull bottom ============
                             ? Transform.translate(
                                 offset: Offset(0, -350 * value),
                                 child: Transform.rotate(
@@ -224,6 +187,7 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                                   ),
                                 ),
                               )
+                            //============== Wheels turn 360° ============
                             : TweenAnimationBuilder(
                                 duration: const Duration(milliseconds: 750),
                                 tween: Tween<double>(
@@ -248,6 +212,7 @@ class _SkateboardWheelsScreenState extends State<SkateboardWheelsScreen> {
                 ],
               ),
             ),
+            //================== Information Wheels =====================
             Container(
               padding: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(

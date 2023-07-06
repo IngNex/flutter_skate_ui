@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_trucks.dart';
 import 'package:flutter_skate_ui/domain/models/skate_model.dart';
-import 'package:flutter_skate_ui/ui/screens/sketboard_wheels/sketboard_wheels_screen.dart';
+import 'package:flutter_skate_ui/ui/screens/wheels/wheels_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
-class SkateboardEjeScreen extends StatefulWidget {
-  const SkateboardEjeScreen({
+class TrucksScreen extends StatefulWidget {
+  const TrucksScreen({
     Key? key,
     required this.productSkate,
     required this.tapHero,
@@ -16,10 +16,10 @@ class SkateboardEjeScreen extends StatefulWidget {
   final int tapHero;
 
   @override
-  State<SkateboardEjeScreen> createState() => _SkateboardEjeScreenState();
+  State<TrucksScreen> createState() => _TrucksScreenState();
 }
 
-class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
+class _TrucksScreenState extends State<TrucksScreen> {
   int _currentPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -138,12 +138,12 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           reverseTransitionDuration:
-                              const Duration(milliseconds: 650),
+                              const Duration(milliseconds: 500),
                           transitionDuration: const Duration(milliseconds: 650),
                           pageBuilder: (context, animation, _) {
                             return FadeTransition(
                               opacity: animation,
-                              child: SkateboardWheelsScreen(
+                              child: WheelsScreen(
                                 productEje: ejes[_currentPage],
                                 tapHero: _currentPage,
                                 skate: widget.productSkate.image,
@@ -206,7 +206,7 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                       ),
                     ),
                     TweenAnimationBuilder<double>(
-                      duration: const Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 1500),
                       tween: Tween(begin: 1.0, end: 0.0),
                       builder: (context, value, child) {
                         return Positioned.fill(
@@ -214,7 +214,7 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                           child: Hero(
                             tag: 'wheels_${_currentPage}',
                             child: Transform.translate(
-                              offset: Offset(0, -240 * value),
+                              offset: Offset(0, -220 * value),
                               child: Image(
                                 image: AssetImage(
                                   ejes[_currentPage].image_back,
@@ -226,7 +226,7 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                       },
                     ),
                     TweenAnimationBuilder<double>(
-                      duration: const Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 1500),
                       tween: Tween(begin: 1.0, end: 0.0),
                       builder: (context, value, _) {
                         return Positioned.fill(
@@ -234,7 +234,7 @@ class _SkateboardEjeScreenState extends State<SkateboardEjeScreen> {
                           child: Hero(
                             tag: 'wheels_${_currentPage}_fron',
                             child: Transform.translate(
-                              offset: Offset(0, -480 * value),
+                              offset: Offset(0, -440 * value),
                               child: Image.asset(
                                 ejes[_currentPage].image_fron,
                               ),

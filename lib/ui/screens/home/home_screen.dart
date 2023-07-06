@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skate_ui/data/memory/in_memory_skates.dart';
-import 'package:flutter_skate_ui/ui/screens/skateboard_ejes/skate_eje_screen.dart';
+import 'package:flutter_skate_ui/ui/screens/trucks/trucks_screen.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -167,12 +167,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           reverseTransitionDuration:
-                              const Duration(milliseconds: 650),
-                          transitionDuration: const Duration(milliseconds: 650),
+                              const Duration(milliseconds: 500),
+                          transitionDuration: const Duration(milliseconds: 600),
                           pageBuilder: (context, animation, _) {
                             return FadeTransition(
                               opacity: animation,
-                              child: SkateboardEjeScreen(
+                              child: TrucksScreen(
                                 productSkate: skates[_currentPage],
                                 tapHero: _currentPage,
                               ),
