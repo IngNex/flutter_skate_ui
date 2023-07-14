@@ -148,18 +148,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Column(
                 children: [
-                  Text(
-                    skates[_currentPage].name,
-                    style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.bold),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 400),
+                    child: Text(
+                      key: Key(skates[_currentPage].name),
+                      skates[_currentPage].name,
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    '\$ ${skates[_currentPage].price}.00',
-                    style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w800),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 400),
+                    child: Text(
+                      key: Key(skates[_currentPage].name),
+                      '\$ ${skates[_currentPage].price}.00',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(

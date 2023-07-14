@@ -238,11 +238,15 @@ class _WheelsScreenState extends State<WheelsScreen> {
                     builder: (context, value, child) {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
-                        child: Text(
-                          wheels[currentPage].name,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w800,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: Text(
+                            key: Key(wheels[currentPage].name),
+                            wheels[currentPage].name,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       );
@@ -273,12 +277,16 @@ class _WheelsScreenState extends State<WheelsScreen> {
                     builder: (context, value, child) {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
-                        child: Text(
-                          '\$${wheels[currentPage].price.toString()}.00',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w800,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: Text(
+                            key: Key(wheels[currentPage].name),
+                            '\$${wheels[currentPage].price.toString()}.00',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       );

@@ -89,11 +89,15 @@ class _TrucksScreenState extends State<TrucksScreen> {
                     builder: (context, value, child) {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
-                        child: Text(
-                          ejes[_currentPage].name,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w800,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: Text(
+                            key: Key(ejes[_currentPage].name),
+                            ejes[_currentPage].name,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       );
@@ -105,12 +109,16 @@ class _TrucksScreenState extends State<TrucksScreen> {
                     builder: (context, value, child) {
                       return Transform.translate(
                         offset: Offset(0, -100 * value),
-                        child: Text(
-                          '\$${ejes[_currentPage].price.toString()}.00',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w800,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: Text(
+                            key: Key(ejes[_currentPage].name),
+                            '\$${ejes[_currentPage].price.toString()}.00',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       );
